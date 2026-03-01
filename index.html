@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أبطال القراءة</title>
+<meta name="description" content="مبادرة تعليمية تفاعلية لتطوير مهارات القراءة والفهم القرائي">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- SPLASH SCREEN -->
+<div id="splash-screen">
+  <div class="splash-inner">
+    <img src="assets/logo-school.png" alt="شعار المدرسة" class="splash-logo" onerror="this.style.display='none'">
+    <div class="splash-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</div>
+
+<div id="app-container">
+
+<!-- HEADER -->
+<header id="main-header" style="display:none">
+  <div class="header-inner">
+    <div class="header-brand">
+      <img src="assets/logo-arabic.png" alt="شعار اللغة العربية" class="header-logo" onerror="this.style.display='none'">
+      <div class="header-brand-text">
+        <span class="header-title">أبطال القراءة</span>
+        <span class="header-school" id="header-school-name"></span>
+      </div>
+    </div>
+    <div class="header-xp" id="header-xp-display">
+      <span class="xp-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:16px;height:16px;vertical-align:middle"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </span>
+      <span id="header-xp-val">0</span> XP
+      <span class="level-badge" id="header-level">مستوى 1</span>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main id="main-content">
+
+  <!-- HOME -->
+  <section id="page-home" class="page active">
+    <div class="hero-section">
+      <!-- Background Effects -->
+      <div class="hero-bg-pattern" aria-hidden="true"></div>
+      <div class="hero-noise" aria-hidden="true"></div>
+      <div class="hero-geo geo-1" aria-hidden="true"></div>
+      <div class="hero-geo geo-2" aria-hidden="true"></div>
+      <div class="hero-geo geo-3" aria-hidden="true"></div>
+      <div class="hero-dot" aria-hidden="true"></div>
+      <div class="hero-dot" aria-hidden="true"></div>
+      <div class="hero-dot" aria-hidden="true"></div>
+      <div class="hero-dot" aria-hidden="true"></div>
+      <div class="hero-dot" aria-hidden="true"></div>
+      <div class="hero-dot" aria-hidden="true"></div>
+
+      <div class="hero-container">
+        <!-- Hero Content -->
+        <div class="hero-top">
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            منصة تعليمية تفاعلية
+          </div>
+          <h1 class="hero-title">أبطال القراءة</h1>
+          <p class="hero-slogan" id="hero-slogan"></p>
+          <p class="hero-desc">ارفع مستواك في القراءة والفهم عبر نصوص تفاعلية وتحديات ممتعة</p>
+          <div class="hero-actions">
+            <button class="btn-hero-primary" onclick="window.location.hash='#dashboard'">
+              <span class="hero-play-icon"></span>
+              ابدأ الآن
+            </button>
+            <button class="btn-hero-secondary" onclick="window.location.hash='#about'">عن المبادرة</button>
+          </div>
+        </div>
+
+        <!-- Hero Visual - Mockup Card -->
+        <div class="hero-visual">
+          <div class="hero-mockup">
+            <div class="mockup-card">
+              <!-- يتم تعبئتها تلقائياً ببيانات الطالب عبر renderHome() -->
+              <div class="mockup-header">
+                <div class="mockup-avatar" style="font-size:1.2rem;font-weight:900;color:#0a0e27">...</div>
+                <div class="mockup-info">
+                  <h4>جارٍ التحميل...</h4>
+                  <span>● ---</span>
+                </div>
+              </div>
+              <div class="mockup-stats">
+                <div class="mock-stat"><div class="mock-stat-value">-</div><div class="mock-stat-label">مهارة مكتملة</div></div>
+                <div class="mock-stat"><div class="mock-stat-value">-</div><div class="mock-stat-label">معدل الإجابات</div></div>
+              </div>
+              <div class="mockup-progress">
+                <div class="mockup-progress-header"><span>التقدم العام</span><span>0%</span></div>
+                <div class="mockup-progress-bar"><div class="mockup-progress-fill" style="width:0%"></div></div>
+              </div>
+              <div class="mockup-skills"></div>
+            </div>
+            <div class="hero-float-badge float-1">
+              <svg viewBox="0 0 24 24" fill="#f5a623" stroke="none" style="width:18px;height:18px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              <span>ابدأ سلسلتك!</span>
+            </div>
+            <div class="hero-float-badge float-2">
+              <svg viewBox="0 0 24 24" fill="#f5a623" stroke="none" style="width:18px;height:18px"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span>0 XP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <div class="hero-features-section">
+        <div class="hero-features-grid">
+          <div class="hero-feature-card">
+            <div class="hero-feature-icon texts-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                <line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+            </div>
+            <h3 class="hero-feature-title">نصوص متنوعة</h3>
+            <p class="hero-feature-desc">نصوص قرائية مختارة بعناية تغطي مواضيع متعددة ومستويات مختلفة</p>
+          </div>
+          <div class="hero-feature-card">
+            <div class="hero-feature-icon skills-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+              </svg>
+            </div>
+            <h3 class="hero-feature-title">15 مهارة قرائية</h3>
+            <p class="hero-feature-desc">تدرّب على جميع مهارات الفهم القرائي المعتمدة في الاختبارات الوطنية</p>
+          </div>
+          <div class="hero-feature-card">
+            <div class="hero-feature-icon challenge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#00c9a7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+            </div>
+            <h3 class="hero-feature-title">تحدي يومي</h3>
+            <p class="hero-feature-desc">تحديات يومية جديدة تحفّزك على المنافسة وتحسين مستواك باستمرار</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="hero-stats-section">
+        <div class="hero-stats-container" id="hero-stats"></div>
+      </div>
+
+      <!-- Daily Tip -->
+      <div class="hero-tip-section" id="home-tip-wrap">
+        <span class="hero-tip-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+        </span>
+        <span id="daily-tip-text"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTH (Login / Register / Reset) -->
+  <section id="page-onboarding" class="page">
+    <div class="onboarding-wrap">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-orb orb-1"></div>
+        <div class="hero-orb orb-2"></div>
+        <div class="hero-orb orb-3"></div>
+      </div>
+
+      <!-- LOGIN -->
+      <div class="onboarding-card" id="auth-login">
+        <div class="onboarding-header">
+          <div class="onboarding-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+          </div>
+          <h2>أبطال القراءة</h2>
+          <p>سجّل دخولك للمتابعة</p>
+        </div>
+        <div class="onboarding-body">
+          <div class="form-group">
+            <label for="login-email">البريد الإلكتروني</label>
+            <input type="email" id="login-email" placeholder="example@email.com" class="input-field" dir="ltr" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="login-password">كلمة المرور</label>
+            <input type="password" id="login-password" placeholder="كلمة المرور" class="input-field" dir="ltr" autocomplete="current-password">
+          </div>
+          <div id="login-error" class="auth-error" style="display:none"></div>
+          <button class="btn btn-primary btn-lg btn-block" id="btn-login">تسجيل الدخول</button>
+          <div class="auth-links">
+            <a href="#" id="link-to-register">حساب جديد</a>
+            <a href="#" id="link-to-reset">نسيت كلمة المرور؟</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- REGISTER -->
+      <div class="onboarding-card" id="auth-register" style="display:none">
+        <div class="onboarding-header">
+          <div class="onboarding-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
+              <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+            </svg>
+          </div>
+          <h2>حساب جديد</h2>
+          <p>أنشئ حسابك لبدء الرحلة</p>
+        </div>
+        <div class="onboarding-body">
+          <div class="form-group">
+            <label for="reg-name">الاسم الكامل</label>
+            <input type="text" id="reg-name" placeholder="مثال: أحمد محمد" class="input-field">
+          </div>
+          <div class="form-group">
+            <label for="reg-class">الصف والفصل</label>
+            <input type="text" id="reg-class" placeholder="مثال: 6/أ" class="input-field">
+          </div>
+          <div class="form-group">
+            <label for="reg-email">البريد الإلكتروني</label>
+            <input type="email" id="reg-email" placeholder="example@email.com" class="input-field" dir="ltr" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="reg-password">كلمة المرور</label>
+            <input type="password" id="reg-password" placeholder="6 أحرف على الأقل" class="input-field" dir="ltr" autocomplete="new-password">
+          </div>
+          <div id="reg-error" class="auth-error" style="display:none"></div>
+          <button class="btn btn-primary btn-lg btn-block" id="btn-register">إنشاء الحساب</button>
+          <div class="auth-links">
+            <a href="#" id="link-to-login">لديك حساب؟ سجّل دخولك</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESET PASSWORD -->
+      <div class="onboarding-card" id="auth-reset" style="display:none">
+        <div class="onboarding-header">
+          <div class="onboarding-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h2>استعادة كلمة المرور</h2>
+          <p>أدخل بريدك لإرسال رابط الاستعادة</p>
+        </div>
+        <div class="onboarding-body">
+          <div class="form-group">
+            <label for="reset-email">البريد الإلكتروني</label>
+            <input type="email" id="reset-email" placeholder="example@email.com" class="input-field" dir="ltr" autocomplete="email">
+          </div>
+          <div id="reset-error" class="auth-error" style="display:none"></div>
+          <div id="reset-success" class="auth-success" style="display:none"></div>
+          <button class="btn btn-primary btn-lg btn-block" id="btn-reset-password">إرسال رابط الاستعادة</button>
+          <div class="auth-links">
+            <a href="#" id="link-back-to-login">العودة لتسجيل الدخول</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="page-dashboard" class="page dash-dark">
+    <!-- Dark Background Effects -->
+    <div class="dash-bg-pattern">
+      <div class="dash-geo dash-geo-1"></div>
+      <div class="dash-geo dash-geo-2"></div>
+      <div class="dash-geo dash-geo-3"></div>
+      <div class="dash-dot" style="top:12%;left:18%"></div>
+      <div class="dash-dot" style="top:38%;right:12%"></div>
+      <div class="dash-dot" style="top:65%;left:35%"></div>
+      <div class="dash-dot" style="top:22%;left:55%"></div>
+      <div class="dash-dot" style="top:78%;right:25%"></div>
+      <div class="dash-dot" style="top:48%;left:8%"></div>
+    </div>
+    <div class="dash-noise"></div>
+
+    <!-- Welcome Bar -->
+    <div class="dash-welcome-wrap" id="dash-welcome"></div>
+
+    <div class="dash-content">
+      <!-- Progress Stats -->
+      <div class="dash-stats" id="dash-progress"></div>
+
+      <!-- Quick Actions: The 3 modes -->
+      <div class="mode-cards">
+        <div class="mode-card mode-daily" onclick="window.location.hash='#play/daily'">
+          <div class="mode-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          </div>
+          <div class="mode-card-text">
+            <h3>التحدي اليومي</h3>
+            <p>نص جديد كل يوم</p>
+            <div class="streak-display" id="streak-display"></div>
+          </div>
+        </div>
+        <div class="mode-card mode-challenge" onclick="window.location.hash='#challenge'">
+          <div class="mode-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 16l4 4"/>
+              <path d="M9.5 6.5L21 18v3h-3L6.5 9.5"/><path d="M11 5L5 11"/><path d="M8 8L4 4"/>
+            </svg>
+          </div>
+          <div class="mode-card-text">
+            <h3>تحدي 1v1</h3>
+            <p>تنافس مع زميلك!</p>
+          </div>
+        </div>
+        <div class="mode-card mode-skill" onclick="window.location.hash='#skills'">
+          <div class="mode-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <div class="mode-card-text">
+            <h3>تدريب مهارة</h3>
+            <p>ركّز على مهارة محددة</p>
+          </div>
+        </div>
+        <div class="mode-card mode-memory" onclick="window.location.hash='#texts/memory'">
+          <div class="mode-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div class="mode-card-text">
+            <h3>اختبار الذاكرة</h3>
+            <p>اقرأ ثم أجب من ذاكرتك!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaderboard Link -->
+      <div id="dash-lb-link"></div>
+
+      <!-- Daily Tip -->
+      <div id="dash-tip"></div>
+
+      <!-- Weakest Skills -->
+      <div id="dash-weak-skills"></div>
+
+      <!-- Badges -->
+      <div id="dash-badges"></div>
+    </div>
+  </section>
+
+  <!-- TEXTS LIST -->
+  <section id="page-texts" class="page">
+    <div class="page-inner">
+      <h2 class="page-title">📖 اختر نصًا للتدريب</h2>
+      <div class="filter-bar">
+        <select id="filter-difficulty" class="input-field input-sm">
+          <option value="">كل المستويات</option>
+          <option value="سهل">سهل</option>
+          <option value="متوسط">متوسط</option>
+          <option value="متقدم">متقدم</option>
+        </select>
+        <select id="filter-genre" class="input-field input-sm">
+          <option value="">كل الأنواع</option>
+          <option value="معلوماتي">معلوماتي</option>
+          <option value="قصصي">قصصي</option>
+          <option value="إرشادي">إرشادي</option>
+          <option value="سيرة">سيرة</option>
+        </select>
+      </div>
+      <div id="texts-grid" class="texts-grid"></div>
+    </div>
+  </section>
+
+  <!-- SKILL SELECT -->
+  <section id="page-skills" class="page">
+    <div id="skill-select-container"></div>
+  </section>
+
+  <!-- PLAY -->
+  <section id="page-play" class="page">
+    <div class="play-container">
+      <div class="play-header">
+        <button class="btn btn-ghost" id="btn-back-play">✕</button>
+        <div class="play-progress-wrap">
+          <div class="play-progress-bar"><div class="play-progress-fill" id="play-progress-fill"></div></div>
+          <span id="play-progress-text">1/15</span>
+        </div>
+        <div class="play-timer" id="play-timer" style="display:none">00:00</div>
+      </div>
+      <!-- Opponent progress bar (1v1 challenge) -->
+      <div class="opponent-bar" id="opponent-bar" style="display:none">
+        <div class="ob-avatar" id="ob-avatar">م</div>
+        <div class="ob-info">
+          <span class="ob-name" id="ob-name">المنافس</span>
+          <div class="ob-progress"><div class="ob-fill" id="ob-fill"></div></div>
+        </div>
+        <span class="ob-text" id="ob-text">0/15</span>
+      </div>
+      <!-- Memory reading overlay -->
+      <div class="memory-reading-overlay" id="memory-reading-overlay" style="display:none">
+        <div class="memory-timer-circle" id="memory-timer-circle">
+          <svg viewBox="0 0 100 100"><circle class="memory-timer-bg" cx="50" cy="50" r="45"/><circle class="memory-timer-fill" id="memory-timer-fill" cx="50" cy="50" r="45"/></svg>
+          <span class="memory-timer-text" id="memory-timer-text">60</span>
+        </div>
+        <p class="memory-label">اقرأ النص بتركيز...</p>
+        <button class="btn btn-outline btn-sm memory-skip-btn" id="btn-skip-reading">جاهز! ابدأ الأسئلة</button>
+      </div>
+      <div class="play-text-panel" id="play-text-panel">
+        <h3 id="play-text-title"></h3>
+        <div id="play-text-body"></div>
+        <button class="btn btn-sm btn-ghost toggle-text-btn" id="toggle-text-btn">إخفاء النص</button>
+      </div>
+      <div class="play-question-panel" id="play-question-panel">
+        <div class="skill-tag" id="play-skill-tag"></div>
+        <p class="question-stem" id="play-stem"></p>
+        <div class="options-list" id="play-options"></div>
+        <div class="explanation-box" id="play-explanation" style="display:none"></div>
+        <button class="btn btn-primary btn-lg btn-block" id="btn-next-q" style="display:none">السؤال التالي</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORT -->
+  <section id="page-report" class="page">
+    <div id="report-container"></div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="page-profile" class="page">
+    <div id="profile-container"></div>
+  </section>
+
+  <!-- CERTIFICATE -->
+  <section id="page-certificate" class="page">
+    <div id="cert-container"></div>
+  </section>
+
+  <!-- VERIFY -->
+  <section id="page-verify" class="page">
+    <div class="card card-centered">
+      <h2>التحقق من الشهادة</h2>
+      <div class="form-group">
+        <label for="verify-id">رقم التحقق</label>
+        <input type="text" id="verify-id" class="input-field" placeholder="أدخل رقم التحقق">
+      </div>
+      <button class="btn btn-primary btn-block" id="btn-verify">تحقق</button>
+      <div id="verify-result"></div>
+    </div>
+  </section>
+
+  <!-- TEACHER -->
+  <section id="page-teacher" class="page">
+    <div id="teacher-container"></div>
+  </section>
+
+  <!-- LEADERBOARD -->
+  <section id="page-leaderboard" class="page">
+    <div id="leaderboard-container"></div>
+  </section>
+
+  <!-- CHALLENGE LOBBY -->
+  <section id="page-challenge" class="page">
+    <div class="page-inner">
+      <div class="challenge-lobby"></div>
+    </div>
+  </section>
+
+  <!-- CHALLENGE ROOM (waiting + countdown) -->
+  <section id="page-challenge-room" class="page">
+    <div class="challenge-room-container"></div>
+  </section>
+
+  <!-- CHALLENGE RESULT -->
+  <section id="page-challenge-result" class="page">
+    <div id="challenge-result-container"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="page-about" class="page">
+    <div id="about-container"></div>
+  </section>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav id="bottom-nav" class="bottom-nav" style="display:none">
+  <a href="#dashboard" class="nav-item" data-page="dashboard">
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+    </span>
+    <span class="nav-label">الرئيسية</span>
+  </a>
+  <a href="#texts" class="nav-item" data-page="texts">
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    </span>
+    <span class="nav-label">النصوص</span>
+  </a>
+  <a href="#skills" class="nav-item" data-page="skills">
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    </span>
+    <span class="nav-label">المهارات</span>
+  </a>
+  <a href="#profile" class="nav-item" data-page="profile">
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </span>
+    <span class="nav-label">ملفي</span>
+  </a>
+</nav>
+
+<!-- FOOTER -->
+<footer id="main-footer">
+  <img src="assets/logo-teacher.png" alt="شعار اللغة العربية" class="footer-logo" onerror="this.style.display='none'">
+  <p id="footer-rights"></p>
+</footer>
+
+</div>
+
+<div id="confetti-container"></div>
+<div id="toast-container"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
