@@ -208,8 +208,6 @@ async function loadData() {
 /* ============================== */
 function applyBranding() {
   const el = (id) => document.getElementById(id);
-  const slogan = CONFIG.slogans?.primary || 'من نصٍّ إلى إنجاز';
-  if (el('hero-slogan')) el('hero-slogan').textContent = slogan;
   if (el('footer-rights')) el('footer-rights').textContent = CONFIG.rights_text || '';
 
   // Show school name in header and hero
