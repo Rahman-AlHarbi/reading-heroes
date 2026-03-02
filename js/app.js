@@ -390,7 +390,6 @@ function renderDashboard() {
     <div class="dash-welcome-inner">
       <div class="dw-hello">
         <h2>مرحبًا ${profile.name}</h2>
-        <p>${CONFIG.slogans?.secondary || 'نقرأ لنفهم… نفهم لنتميز'}</p>
       </div>
       <div class="dw-motivation">
         <div class="dw-streak ${streakCount > 0 ? 'active' : ''}">
