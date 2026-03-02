@@ -2260,13 +2260,15 @@ select.input-field {
   gap: 14px;
   background: linear-gradient(145deg, rgba(99,82,191,0.15), rgba(20,20,60,0.5));
   border-radius: var(--radius-lg);
-  padding: var(--space-5);
+  padding: 20px;
   margin-bottom: var(--space-4);
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   border: 1px solid rgba(99,82,191,0.3);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: #fff;
+  direction: rtl;
+  text-align: right;
 }
 
 .about-section-icon {
@@ -2280,8 +2282,9 @@ select.input-field {
 }
 
 .about-section-icon .svg-icon { width: 22px; height: 22px; }
-.about-section-body h3 { color: #fff; font-size: 1rem; margin-bottom: 6px; }
-.about-section-body p { color: rgba(255,255,255,0.6); font-size: 0.88rem; line-height: 1.7; margin: 0; }
+.about-section-body h3 { color: #fff; font-size: 1rem; margin-bottom: 8px; }
+.about-section-body p { color: rgba(255,255,255,0.75); font-size: 0.95rem; line-height: 1.8; margin: 0; }
+@media (min-width: 768px) { .about-section-body p { font-size: 1.05rem; } }
 
 /* Skills grid */
 .about-skills-section { margin-bottom: 16px; }
