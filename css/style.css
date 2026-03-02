@@ -1783,7 +1783,7 @@ select.input-field {
   align-items: center;
   box-shadow: 0 2px 10px rgba(30,27,75,0.2);
 }
-.play-timer.timer-danger { background: linear-gradient(135deg, #EF4444, #DC2626); animation: pulse 1s infinite; box-shadow: 0 2px 12px rgba(239,68,68,0.3); }
+.play-timer.timer-danger { background: linear-gradient(135deg, #EF4444, #DC2626); animation: pulse 1s infinite; box-shadow: 0 2px 12px rgba(239,68,68,0.3); color: #fff !important; font-weight: 900; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
 .play-text-panel {
@@ -2470,7 +2470,8 @@ select.input-field {
 }
 
 .memory-urgent .memory-timer-text {
-  color: var(--danger);
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.5), 0 0 12px rgba(239,68,68,0.6);
 }
 
 .memory-label {
