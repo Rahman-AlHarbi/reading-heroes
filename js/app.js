@@ -127,12 +127,12 @@ function setupAuthViews() {
     if (!pass || pass.length < 6) { errEl.textContent = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل'; errEl.style.display = 'block'; return; }
     const btn = document.getElementById('btn-register');
     btn.disabled = true; btn.textContent = 'جارٍ إنشاء الحساب...';
+    // حفظ البيانات قبل التسجيل حتى يكون الاسم جاهز لما onAuthChange يشتغل
+    storage.setProfile({ name, className: cls || 'غير محدد' });
+    storage.setProgress({ xp: 0, level: 1, textsCompleted: 0, totalCorrect: 0, totalAnswered: 0 });
     const result = await registerUser(email, pass, name, cls || 'غير محدد');
-    if (result.success) {
-      // حفظ البيانات في localStorage فوراً (قبل ما onAuthChange يشتغل)
-      storage.setProfile({ name, className: cls || 'غير محدد' });
-      storage.setProgress({ xp: 0, level: 1, textsCompleted: 0, totalCorrect: 0, totalAnswered: 0 });
-    } else {
+    if (!result.success) {
+      storage.clearStudentData();
       errEl.textContent = result.error; errEl.style.display = 'block';
     }
     btn.disabled = false; btn.textContent = 'إنشاء الحساب';
