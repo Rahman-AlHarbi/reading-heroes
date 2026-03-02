@@ -52,45 +52,50 @@ export async function createRoom(textId) {
   const text = TEXTS.find(t => t.id === textId);
   if (!text) return { success: false, error: 'النص غير موجود' };
 
-  const code = await generateRoomCode();
-  const qCount = text.questions.length;
+  try {
+    const code = await generateRoomCode();
+    const qCount = text.questions.length;
 
-  // Generate consistent shuffle for both players
-  const questionOrder = engine.shuffleArray([...Array(qCount).keys()]);
-  const choiceMaps = questionOrder.map(() => engine.shuffleArray([0, 1, 2, 3]));
+    // Generate consistent shuffle for both players
+    const questionOrder = engine.shuffleArray([...Array(qCount).keys()]);
+    const choiceMaps = questionOrder.map(() => engine.shuffleArray([0, 1, 2, 3]));
 
-  const roomData = {
-    createdBy: user.uid,
-    createdAt: rtdbTimestamp(),
-    textId,
-    textTitle: text.title,
-    totalQuestions: qCount,
-    questionOrder,
-    choiceMaps,
-    status: 'waiting',
-    players: {
-      [user.uid]: {
-        name: profile?.name || user.displayName || 'لاعب',
-        connected: true,
-        currentQ: 0,
-        correctCount: 0,
-        answers: [],
-        finishedAt: null
-      }
-    },
-    winner: null,
-    finishedAt: null
-  };
+    const roomData = {
+      createdBy: user.uid,
+      createdAt: rtdbTimestamp(),
+      textId,
+      textTitle: text.title,
+      totalQuestions: qCount,
+      questionOrder,
+      choiceMaps,
+      status: 'waiting',
+      players: {
+        [user.uid]: {
+          name: profile?.name || user.displayName || 'لاعب',
+          connected: true,
+          currentQ: 0,
+          correctCount: 0,
+          answers: {},
+          finishedAt: 0
+        }
+      },
+      winner: '',
+      finishedAt: 0
+    };
 
-  await set(ref(rtdb, 'rooms/' + code), roomData);
-  await set(ref(rtdb, 'roomCodes/' + code), true);
+    await set(ref(rtdb, 'rooms/' + code), roomData);
+    await set(ref(rtdb, 'roomCodes/' + code), true);
 
-  // Presence: mark disconnected if browser closes
-  const connRef = ref(rtdb, 'rooms/' + code + '/players/' + user.uid + '/connected');
-  onDisconnect(connRef).set(false);
+    // Presence: mark disconnected if browser closes
+    const connRef = ref(rtdb, 'rooms/' + code + '/players/' + user.uid + '/connected');
+    onDisconnect(connRef).set(false);
 
-  currentRoom = { code, unsubs: [], role: 'creator' };
-  return { success: true, code };
+    currentRoom = { code, unsubs: [], role: 'creator' };
+    return { success: true, code };
+  } catch (e) {
+    console.error('[Challenge] createRoom failed:', e);
+    return { success: false, error: 'فشل إنشاء الغرفة، تحقق من الاتصال' };
+  }
 }
 
 /* ============================== */
@@ -100,32 +105,37 @@ export async function joinRoom(code) {
   const user = getCurrentUser();
   if (!user) return { success: false, error: 'يجب تسجيل الدخول' };
 
-  const snap = await get(ref(rtdb, 'rooms/' + code));
-  if (!snap.exists()) return { success: false, error: 'كود الغرفة غير صحيح' };
+  try {
+    const snap = await get(ref(rtdb, 'rooms/' + code));
+    if (!snap.exists()) return { success: false, error: 'كود الغرفة غير صحيح' };
 
-  const room = snap.val();
-  if (room.status !== 'waiting') return { success: false, error: 'اللعبة بدأت بالفعل' };
+    const room = snap.val();
+    if (room.status !== 'waiting') return { success: false, error: 'اللعبة بدأت بالفعل' };
 
-  const playerUIDs = Object.keys(room.players || {});
-  if (playerUIDs.length >= 2) return { success: false, error: 'الغرفة ممتلئة' };
-  if (playerUIDs.includes(user.uid)) return { success: false, error: 'لا يمكنك التحدي مع نفسك' };
+    const playerUIDs = Object.keys(room.players || {});
+    if (playerUIDs.length >= 2) return { success: false, error: 'الغرفة ممتلئة' };
+    if (playerUIDs.includes(user.uid)) return { success: false, error: 'لا يمكنك التحدي مع نفسك' };
 
-  const profile = storage.getProfile();
-  await update(ref(rtdb, 'rooms/' + code + '/players/' + user.uid), {
-    name: profile?.name || user.displayName || 'لاعب',
-    connected: true,
-    currentQ: 0,
-    correctCount: 0,
-    answers: [],
-    finishedAt: null
-  });
+    const profile = storage.getProfile();
+    await update(ref(rtdb, 'rooms/' + code + '/players/' + user.uid), {
+      name: profile?.name || user.displayName || 'لاعب',
+      connected: true,
+      currentQ: 0,
+      correctCount: 0,
+      answers: {},
+      finishedAt: 0
+    });
 
-  // Presence
-  const connRef = ref(rtdb, 'rooms/' + code + '/players/' + user.uid + '/connected');
-  onDisconnect(connRef).set(false);
+    // Presence
+    const connRef = ref(rtdb, 'rooms/' + code + '/players/' + user.uid + '/connected');
+    onDisconnect(connRef).set(false);
 
-  currentRoom = { code, unsubs: [], role: 'joiner' };
-  return { success: true, room };
+    currentRoom = { code, unsubs: [], role: 'joiner' };
+    return { success: true, room };
+  } catch (e) {
+    console.error('[Challenge] joinRoom failed:', e);
+    return { success: false, error: 'فشل الانضمام، تحقق من الاتصال' };
+  }
 }
 
 /* ============================== */
@@ -179,27 +189,35 @@ async function startPlaying(code) {
 }
 
 export async function reportAnswer(code, qIndex, isCorrect) {
-  const user = getCurrentUser();
-  if (!user || !code) return;
-  const playerRef = ref(rtdb, 'rooms/' + code + '/players/' + user.uid);
-  const snap = await get(playerRef);
-  if (!snap.exists()) return;
-  const data = snap.val();
-  const answers = data.answers || [];
-  answers.push(isCorrect);
-  await update(playerRef, {
-    currentQ: qIndex + 1,
-    correctCount: (data.correctCount || 0) + (isCorrect ? 1 : 0),
-    answers
-  });
+  try {
+    const user = getCurrentUser();
+    if (!user || !code) return;
+    const playerRef = ref(rtdb, 'rooms/' + code + '/players/' + user.uid);
+    const snap = await get(playerRef);
+    if (!snap.exists()) return;
+    const data = snap.val();
+    const answers = Array.isArray(data.answers) ? data.answers : [];
+    answers.push(isCorrect);
+    await update(playerRef, {
+      currentQ: qIndex + 1,
+      correctCount: (data.correctCount || 0) + (isCorrect ? 1 : 0),
+      answers
+    });
+  } catch (e) {
+    console.error('[Challenge] reportAnswer failed:', e);
+  }
 }
 
 export async function reportFinish(code) {
-  const user = getCurrentUser();
-  if (!user || !code) return;
-  await update(ref(rtdb, 'rooms/' + code + '/players/' + user.uid), {
-    finishedAt: Date.now()
-  });
+  try {
+    const user = getCurrentUser();
+    if (!user || !code) return;
+    await update(ref(rtdb, 'rooms/' + code + '/players/' + user.uid), {
+      finishedAt: Date.now()
+    });
+  } catch (e) {
+    console.error('[Challenge] reportFinish failed:', e);
+  }
 }
 
 async function determineWinner(code) {
@@ -351,11 +369,18 @@ export function renderCreateRoom() {
       const textId = card.dataset.id;
       card.style.opacity = '0.5';
       card.style.pointerEvents = 'none';
-      const result = await createRoom(textId);
-      if (result.success) {
-        window.location.hash = '#challenge/room/' + result.code;
-      } else {
-        ui.showToast(result.error, 'error');
+      try {
+        const result = await createRoom(textId);
+        if (result.success) {
+          window.location.hash = '#challenge/room/' + result.code;
+        } else {
+          ui.showToast(result.error, 'error');
+          card.style.opacity = '';
+          card.style.pointerEvents = '';
+        }
+      } catch (e) {
+        console.error('[Challenge] text card click error:', e);
+        ui.showToast('حدث خطأ، حاول مرة أخرى', 'error');
         card.style.opacity = '';
         card.style.pointerEvents = '';
       }
@@ -402,12 +427,19 @@ export function renderJoinRoom() {
     }
     const btn = document.getElementById('btn-submit-join');
     btn.disabled = true; btn.textContent = 'جارٍ الانضمام...';
-    const result = await joinRoom(code);
-    btn.disabled = false; btn.textContent = 'انضمام';
-    if (result.success) {
-      window.location.hash = '#challenge/room/' + code;
-    } else {
-      errEl.textContent = result.error;
+    try {
+      const result = await joinRoom(code);
+      btn.disabled = false; btn.textContent = 'انضمام';
+      if (result.success) {
+        window.location.hash = '#challenge/room/' + code;
+      } else {
+        errEl.textContent = result.error;
+        errEl.style.display = 'block';
+      }
+    } catch (e) {
+      console.error('[Challenge] join click error:', e);
+      btn.disabled = false; btn.textContent = 'انضمام';
+      errEl.textContent = 'حدث خطأ، حاول مرة أخرى';
       errEl.style.display = 'block';
     }
   });
@@ -745,20 +777,24 @@ export async function finishChallenge() {
   if (!challengeGame) return;
   const code = challengeGame.code;
 
-  await reportFinish(code);
+  try {
+    await reportFinish(code);
 
-  // Check if opponent also finished
-  const snap = await get(ref(rtdb, 'rooms/' + code));
-  if (!snap.exists()) return;
-  const room = snap.val();
-  const players = Object.entries(room.players || {});
-  const allFinished = players.every(([, p]) => p.finishedAt);
+    // Check if opponent also finished
+    const snap = await get(ref(rtdb, 'rooms/' + code));
+    if (!snap.exists()) return;
+    const room = snap.val();
+    const players = Object.entries(room.players || {});
+    const allFinished = players.every(([, p]) => p.finishedAt);
 
-  if (allFinished) {
-    const winner = await determineWinner(code);
-    if (winner) await setWinner(code, winner);
+    if (allFinished) {
+      const winner = await determineWinner(code);
+      if (winner) await setWinner(code, winner);
+    }
+    // If not all finished, the listener will catch it when opponent finishes
+  } catch (e) {
+    console.error('[Challenge] finishChallenge failed:', e);
   }
-  // If not all finished, the listener will catch it when opponent finishes
 }
 
 /* ============================== */

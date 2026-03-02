@@ -12,6 +12,7 @@ import { getDatabase, ref, set, get, update, onValue, onDisconnect, remove,
 const firebaseConfig = {
   apiKey: "AIzaSyCl5r0AqjHqnaT6jnpl9m9hhfonkOWa0K8",
   authDomain: "reading-heroes.firebaseapp.com",
+  databaseURL: "https://reading-heroes-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "reading-heroes",
   storageBucket: "reading-heroes.firebasestorage.app",
   messagingSenderId: "1028826510609",
@@ -23,7 +24,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 auth.languageCode = 'ar';
-const rtdb = getDatabase(app, 'https://reading-heroes-default-rtdb.europe-west1.firebasedatabase.app');
+const rtdb = getDatabase(app);
 
 /* ===== Realtime Database Exports ===== */
 export { rtdb, ref, set, get, update, onValue, onDisconnect, remove, rtdbTimestamp };
