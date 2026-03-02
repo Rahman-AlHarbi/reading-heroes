@@ -1992,6 +1992,19 @@ async function init() {
         pushUserData(user.uid, { name, className: 'غير محدد', xp: 0, level: 1, textsCompleted: 0, totalCorrect: 0, totalAnswered: 0 });
       }
       updateHeaderXP();
+      // Show splash ad once per user
+      if (!localStorage.getItem('rh_ad_seen')) {
+        const adOverlay = document.getElementById('splash-ad');
+        if (adOverlay) {
+          adOverlay.style.display = 'flex';
+          const dismiss = () => {
+            adOverlay.style.display = 'none';
+            localStorage.setItem('rh_ad_seen', '1');
+          };
+          document.getElementById('splash-ad-close').onclick = dismiss;
+          document.getElementById('splash-ad-skip').onclick = dismiss;
+        }
+      }
       // إذا كان على التسجيل → حوّل للهوم (يشوف بياناته)
       const hash = window.location.hash.replace('#', '').split('/')[0];
       if (!hash || hash === 'onboarding') {
